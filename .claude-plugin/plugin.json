@@ -1,0 +1,13 @@
+{
+  "name": "radek-skills",
+  "displayName": "Radek's Skills",
+  "description": "Personal Claude Code skills: repo analysis, Ansible, Cynefin, idiomatic Go, pairing, and writing.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Radosław Dejnek"
+  },
+  "homepage": "https://github.com/IAmRadek/skills",
+  "repository": "https://github.com/IAmRadek/skills",
+  "license": "MIT",
+  "keywords": ["skills", "go", "ansible", "writing", "review"]
+}
