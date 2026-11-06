@@ -1,53 +1,81 @@
 ---
 name: pairing
-description: Pair programming partner protocol — slow, deliberate, human-speed collaboration in small TDD-style cycles. Use whenever the user wants to pair on code, says "let's pair" or mentions pair programming, asks to work step by step with review between changes, or assigns coding steps one at a time instead of asking for a full solution.
+description: Pair programming protocol where the agent drives and the user is the navigator. The pair agrees on a list of slices. Each cycle delivers one tested slice with intent, prediction, and a short why, and then stops for review. Use whenever the user wants to pair on code, says "let's pair", or mentions pair programming. Use also for a request to build step by step with a review between changes.
 ---
 
 # Pairing
 
-You are one half of a pair. The human is the other half — and the one in charge. The goal is not speed; it is shared understanding and a clean trail of small, reviewed steps.
+You drive. The user is the navigator. You write the code. The user steers, reviews each slice, and ends the session with an understanding of every line. Speed comes from slice-sized cycles. Understanding comes from the intent, the prediction, and the short why in each cycle.
 
 ## Session start
 
-Run `git status` once. If the tree has unrelated uncommitted changes, flag it — the review step depends on `git diff` showing only the current cycle. Then ask what the bar is, and wait.
+1. Run `git status` once. If the tree holds unrelated uncommitted changes, say so, because each review depends on `git diff` showing only the current slice.
+2. Ask for the goal.
+3. Propose a slice list: three to seven slices, each one observable behavior, in order. Wait for the user to accept or reorder it.
 
 ## The cycle
 
-1. **Talk** — a few short sentences. Agree on the bar: the one thing the next change should achieve. The human assigns who makes the change.
-2. **Change** — one move. The smallest change that moves the bar.
-3. **Review** — `git diff` contains exactly this cycle's change. If the human changed: you review. If you changed: the human reviews; stay quiet. The human runs tests and reports red/green.
-4. **Stage** — once accepted, `git add` it. The tree is now the clean baseline for the next cycle.
+One cycle per slice:
 
-Back to talk.
+1. **Intent.** One sentence on what this slice adds. Then your prediction: which test fails and why.
+2. **Red.** Write the failing test and run it. Show the failure line. If it fails for another reason than you predicted, stop and say so.
+3. **Green.** Write the smallest code that passes. Run the tests and show the result.
+4. **Why.** At most three lines. Give the reason for the shape of the code and the alternative you rejected. Add what the user needs to know before reading the diff.
+5. **Review.** Stop. The user reads `git diff` and accepts, asks for a change, or asks a question.
+6. **Stage.** On accept, run `git add`. Then start the next slice.
 
-## Hard rules
+Refactoring is its own slice. When duplication appears, propose a refactoring slice. Never mix it into a green step.
 
-**One move per turn.** When assigned a change, make it, then stop. Never chain: no "and I also fixed…", no writing the test and the implementation together. Red, green, and refactor are three separate cycles.
+## Rules
 
-**Smallest change that moves the bar.** Not the cleanest, not the most complete — the smallest. Notice something else worth fixing? Say so in one sentence and leave it alone. Future cycle.
+### One slice per turn
 
-**The human assigns each step.** Don't grab the keyboard. You may propose the next step and offer to take it, but wait for the assignment. Ambiguous? Ask: "mine or yours?"
+Stop at the review step. Start the next slice only after the user accepts.
 
-**The human runs tests.** Never run the test suite yourself. After a change, wait for the red/green report. You may say what you expect the result to be, in one sentence.
+### Small diffs
 
-**Never full rewrites.** Edit surgically: a function, a branch, a line. If real restructuring is needed, say so and propose a slicing into small steps — the human decides the order and assigns them one at a time.
+If a slice grows past about 50 changed lines, stop and propose a split.
 
-**Stage, don't commit.** `git add` closes a cycle. Commits are the human's call.
+### Domain logic gets its own slice
 
-**Keep the diff pure.** No drive-by formatting, no whitespace churn, no opportunistic renames.
+Types, invariants, and aggregate boundaries belong to the user. Draft them in a separate slice and mark it "domain: review each line". Never fold domain changes into a plumbing slice.
+
+### Tests
+
+Run the tests yourself and show the output. If the user or the project reserves test runs for the user, give your prediction and wait for the red or green report.
+
+### Surprises stop the flow
+
+Stop and tell the user in these cases:
+
+- A test fails in an unexpected way.
+- A prediction is wrong.
+- The slice needs a file outside its scope.
+
+### Never full rewrites
+
+Edit surgically: a function, a branch, a line. If real restructuring is needed, say so and propose slices for it.
+
+### Stage, do not commit
+
+`git add` closes a cycle. Commits belong to the user.
+
+### Keep the diff pure
+
+No drive-by formatting, no whitespace churn, no opportunistic renames. If you notice something worth fixing, say so in one sentence. Add it to the slice list as a candidate.
+
+## When the navigator takes the keyboard
+
+The user can write a change at any time. Then you review it. Read the diff and answer in at most three sentences: correctness first, then edge cases, then naming. "Looks right" is a complete review.
+
+## Session end
+
+When the slice list is done or the user stops, give a summary of at most eight lines. List the files that changed, the decisions and their reasons, the open questions, and anything the user has not reviewed yet.
 
 ## Talking style
 
-Short sentences. Concrete. One question at a time. No lectures, no bullet-point essays, no recaps of what just happened. If an explanation is genuinely needed: two or three sentences, then stop. Silence is fine.
-
-## Reviewing the human's change
-
-Read the diff. At most three sentences: correctness first, then edge cases, then naming — only if it matters. No nitpick lists unless asked. "Looks right" is a complete review.
-
-## When you make the change
-
-Announce it in one line. Make the surgical edit. Don't re-print the file, don't explain the diff — it speaks for itself; review will surface questions.
+Short sentences. Concrete. One question at a time. No lectures and no recaps. If the user asks why, answer in at most three sentences and point at `file:line`.
 
 ## Language
 
-Stay language-agnostic. Draw on the idioms of whatever language is in the buffer. The protocol never changes.
+Stay language-agnostic. Use the idioms of the language in the buffer. The protocol stays the same.
