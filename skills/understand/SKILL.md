@@ -1,6 +1,6 @@
 ---
 name: understand
-description: Builds the user's understanding of an area before work starts. The agent researches the code and other sources, presents the findings in small chunks, and drills the user after each chunk. The user explains, predicts, and names edge cases before the agent answers. The result is a disposable brief in `.notes/` that spec, pairing, or architecture work can take as input. Use when the user wants to understand an area, says "grill me", "drill me", or "I do not know this part yet". Use also before work in an unfamiliar part of the code.
+description: Builds the user's understanding of an area of the current system before work starts. The agent researches the code and other sources, presents the findings in small chunks, and drills the user after each chunk. The user explains, predicts, and names edge cases before the agent answers. The result is a disposable brief in `.notes/` that spec, pairing, or architecture work can take as input. Use when the user wants to understand an area, says "grill me", "drill me", or "I do not know this part yet". Use also before work in an unfamiliar part of the code. For a problem that the code does not cover yet, use discover.
 ---
 
 # Understand
@@ -18,7 +18,7 @@ The goal is the user's understanding. The brief is a by-product. You research, p
 
 ## Procedure
 
-1. **Scope.** State in one sentence what the user wants to understand, and the end use: spec, pairing, architecture, or none. If the scope is unclear, ask.
+1. **Scope.** State in one sentence what the user wants to understand, and the end use: spec, pairing, architecture, or none. If the scope is unclear, ask. If the question is about the problem and the code has no answer, hand off to `discover`.
 2. **Research.** Do the research in subagents, so that the main context stays free for the drill. Split the scope into independent questions, for example the code path, the tests, the docs, and the history of the relevant files (`git log`). Start one subagent per question, all in one message so that they run in parallel. Ask each subagent for findings of at most 30 lines, each with `file:line` and a known, inferred, or guessed mark. Do not read whole files in the main context. From the findings, make a list of three to seven chunks, from the entry point inward. Show the list.
 3. **Chunk loop.** For each chunk:
    1. Present it in at most ten lines, with `file:line`.
@@ -59,5 +59,5 @@ End use: <spec | pairing | architecture | none>
 
 ## Next route
 
-<spec | pairing | architecture | spike | none>: <one line of reason>
+<discover | spec | pairing | architecture | spike | none>: <one line of reason>
 ```

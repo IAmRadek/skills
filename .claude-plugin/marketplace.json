@@ -10,8 +10,8 @@
       "name": "radek-skills",
       "source": "./",
       "displayName": "Radek's Skills",
-      "description": "Personal Claude Code skills: repo analysis, Ansible, Cynefin, idiomatic Go, pairing, and writing.",
-      "version": "0.3.1",
+      "description": "Personal Claude Code skills: a workflow from problem discovery through architecture to pairing and specs, plus repo analysis, Ansible, Cynefin, idiomatic Go, and writing.",
+      "version": "0.4.0",
       "license": "MIT"
     }
   ]

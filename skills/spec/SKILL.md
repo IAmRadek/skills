@@ -15,11 +15,11 @@ You help the user turn an idea into a spec that a coding agent can implement wit
 - Rules that cover only the happy path are the most common gap. Each "When" rule needs its "If ... then" partner.
 - A reviewer that is asked to find problems always finds something. When you check a spec, report only gaps that change what the agent builds.
 - Long specs dilute each line. One spec is one change that the user can review in one sitting.
-- Domain rules (types, invariants, money, permissions, data that outlives a release) belong to the user. Never fill one from a default. Ask.
+- Domain rules (types, invariants, money, permissions, data that outlives a release) never come from a default. If the user does not know a rule, mark it as to check and hand off to `discover`. Or record it under Assumptions, with what breaks if it is wrong.
 
 ## Procedure
 
-1. **Ground.** Read what the user gave. Read the README, the Makefile, and the CI configuration. Find the files, the entry points, and the test command.
+1. **Ground.** Read what the user gave. If `.notes/` holds a `discover`, `understand`, or `architecture` brief for this work, read it. Read the README, the Makefile, and the CI configuration. Find the files, the entry points, and the test command.
 2. **Map.** Draft the rules, one example per rule, and the open questions for yourself (Example Mapping). If you find more than five rules, the work is too big. Propose slices and let the user pick one.
 3. **Interview.** Ask one question per message. Order: scope, data and invariants, error handling, user-facing behavior, technical detail. Put your recommended answer first with a one-line reason, and offer options where they fit. Ask at most five questions. For the rest, pick a safe default and record it under Assumptions. Never ask what the repo can answer.
 4. **Draft.** Read `references/spec-template.md` and fill it. Show the whole draft in chat.

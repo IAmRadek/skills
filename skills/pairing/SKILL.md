@@ -10,7 +10,7 @@ You drive. The user is the navigator. You write the code. The user steers, revie
 ## Session start
 
 1. Run `git status` once. If the tree holds unrelated uncommitted changes, say so, because each review depends on `git diff` showing only the current slice.
-2. Ask for the goal.
+2. Ask for the goal. If `.notes/` holds a `discover`, `understand`, or `architecture` brief for it, read it.
 3. Propose a slice list: three to seven slices, each one observable behavior, in order. Wait for the user to accept or reorder it.
 
 ## The cycle
@@ -38,7 +38,7 @@ If a slice grows past about 50 changed lines, stop and propose a split.
 
 ### Domain logic gets its own slice
 
-Types, invariants, and aggregate boundaries belong to the user. Draft them in a separate slice and mark it "domain: review each line". Never fold domain changes into a plumbing slice.
+Types, invariants, and aggregate boundaries encode domain facts. If a fact is open, stop and mark it as to check or assumed. For a larger gap, propose `discover`. Draft domain code in a separate slice and mark it "domain: review each line". Never fold domain changes into a plumbing slice.
 
 ### Tests
 
